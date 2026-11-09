@@ -1,0 +1,24 @@
+{
+  "secret_pattern_matches": [],
+  "syntax_findings": [],
+  "selected_source_files": 667,
+  "excluded_directories": [
+    ".cache",
+    ".git",
+    ".idea",
+    ".venv",
+    "__pycache__",
+    "_external",
+    "cache",
+    "checkpoints",
+    "data",
+    "external_sources",
+    "figures",
+    "logs",
+    "reports",
+    "results",
+    "venv"
+  ],
+  "core": "exact AST source-segment extraction; no semantic rewriting",
+  "originals_changed": false
+}
