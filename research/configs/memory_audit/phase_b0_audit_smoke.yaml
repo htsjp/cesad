@@ -1,0 +1,10 @@
+output_dir: results/phase_b0_audit
+report_dir: reports
+stage: audit_smoke
+phase_a_config: configs/memory_audit/phase_a_formal.yaml
+phase_b0_config: configs/memory_audit/phase_b0_formal.yaml
+directions: [d1]
+limit_images: 2
+feature_images: 2
+score_trace_images: 2
+topk_queries: 128

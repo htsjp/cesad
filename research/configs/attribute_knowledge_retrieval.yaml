@@ -1,0 +1,87 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/attribute_knowledge_retrieval
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+batch_size: 1
+num_workers: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+layer: 24
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+baseline_reference:
+  I-AUROC: 0.9360
+  P-AUROC: 0.9141
+  PRO: 0.8650
+baseline_tolerance:
+  I-AUROC: 0.002
+  P-AUROC: 0.002
+  PRO: 0.005
+primary:
+  tau_attr: 0.05
+  r: 3
+  top_l: 20
+  lambda_attr: 0.05
+  agreement: cross
+scalar_rerank:
+  lambda_sem: 0.25
+  top_m: 3
+run_mode: primary
+sweeps:
+  tau_attr: [0.01, 0.03, 0.05, 0.1]
+  r: [1, 2, 3, 5]
+  top_l: [10, 20, 50]
+  lambda_attr: [0.02, 0.05, 0.1, 0.2]
+attribute_bank:
+  groups:
+    normal_state:
+      - "a normal object"
+      - "an intact object"
+      - "an undamaged object"
+      - "a flawless object"
+      - "a clean surface"
+      - "a regular texture"
+      - "a correctly shaped object"
+    surface_texture_anomaly:
+      - "a scratched surface"
+      - "a cracked surface"
+      - "a contaminated surface"
+      - "an irregular texture"
+      - "a rough damaged surface"
+      - "a stained surface"
+      - "a corroded surface"
+    shape_geometry_anomaly:
+      - "a deformed object"
+      - "a dented object"
+      - "a bent object"
+      - "a broken object"
+      - "a hole in the object"
+      - "a missing part"
+      - "an incorrectly shaped object"
+    appearance_anomaly:
+      - "a discolored surface"
+      - "an unusually colored object"
+      - "a burned surface"
+      - "an abnormal reflection"
+      - "an inconsistent material appearance"
+  templates:
+    - "{}"
+    - "a photo of {}"
+    - "a close-up photo of {}"
+    - "an industrial inspection image of {}"
+

@@ -1,0 +1,68 @@
+output_dir: results/graph_reconstruction_audit
+device: cuda:0
+seed: 0
+stage: smoke
+data_paths:
+  mvtec: data/mvtec
+  visa: data/VISA
+directions:
+  d1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+    image_cache: cache/cache_model_mvtec.pt
+    patch_cache: cache/cache_patch_model_mvtec.pt
+  d2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+    image_cache: cache/cache_model_visa.pt
+    patch_cache: cache/cache_patch_model_visa.pt
+retrieval:
+  mode: active_graph
+  k1: 4
+  k2: 8
+  top_relations: 2
+  max_candidates: 32
+  temperature: 1.0
+  lambda_q: 1.0
+  lambda_s: 0.25
+  lambda_r: 0.15
+  lambda_d: 0.1
+graph:
+  max_neighbors_per_relation: 16
+  knn_k: 16
+smoke:
+  synthetic_queries: 64
+  real_images: 4
+  noise: 0.03
+groups:
+  G0:
+    mode: full_softmax
+    description: Faithful MRAD full-softmax retrieval
+  G1:
+    mode: fixed_topk
+    description: Fixed Top-k retrieval with the same final node budget
+  G2:
+    mode: random_neighbors
+    description: Top-k seeds + random neighbors
+  G3:
+    mode: knn_expand
+    description: Top-k seeds + fixed 1-hop KNN expansion
+  G4:
+    mode: active_direct
+    description: Evidence-conditioned relation traversal + direct label aggregation
+  G5:
+    mode: active_graph
+    description: Evidence-conditioned relation traversal + reconstructed prototypes
+  G6:
+    mode: active_graph
+    lambda_d: 0.0
+    description: G5 without diversity penalty
+  G7:
+    mode: knn_expand
+    description: G5 using only similarity-derived graph edges
+  G8:
+    mode: active_graph
+    use_metric_for_graph: false
+    description: G5 using structural relations but no learned Wq/Wk for graph construction

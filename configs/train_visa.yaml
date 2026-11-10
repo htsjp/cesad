@@ -1,0 +1,11 @@
+# Paths are examples, relative to this YAML; no dataset or weight is distributed.
+source: Full VisA
+seed: 0
+features: ../data_assets/visa/prepared_features.npy
+labels: ../data_assets/visa/true_labels.npy
+batch_indices: ../data_assets/visa/actual_batches.npy
+geometry_checkpoint: ../weights/visa/update_000.pt
+updates: 30
+learning_rate: 0.001
+ntr: true
+rho: 0.10

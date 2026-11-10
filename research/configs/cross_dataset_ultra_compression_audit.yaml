@@ -1,0 +1,51 @@
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+output_dir: results/ultra_compact_memory
+device: cuda:0
+seed: 0
+resume: true
+run_mode: stage1
+transfer_directions:
+  - name: visa_to_mvtec
+    source: visa
+    target: mvtec
+  - name: mvtec_to_visa
+    source: mvtec
+    target: visa
+source_mode: test
+target_mode: test
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+centroid_pca_ranks: [2, 4, 8, 16, 32, 64, 128]
+codebook_sizes: [16, 32, 64, 128, 256, 512]
+codebook_offset_pairs:
+  - [32, 4]
+  - [64, 4]
+  - [64, 8]
+  - [128, 4]
+  - [128, 8]
+  - [256, 4]
+stage1_pca_ranks: [8, 16, 32, 64]
+stage1_codebook_sizes: [64, 128, 256]
+stage1_offset_pairs:
+  - [64, 4]
+stage1_control_seeds: 5
+control_seeds: 20
+random_pca_control_ranks: [32]
+coeff_shuffle_pca_ranks: [32]
+random_codebook_control_sizes: [128]
+kmeans_seed: 0
+kmeans_tol: 0.0001
+kmeans_n_init: 10
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

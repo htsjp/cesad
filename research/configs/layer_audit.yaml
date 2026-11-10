@@ -1,0 +1,26 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/layer_audit
+device: cuda:0
+seed: 0
+batch_size: 1
+num_workers: 0
+image_size: 518
+features_list: [3, 6, 9, 12, 18, 24]
+layers: [3, 6, 9, 12, 18, 24]
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+retrieval_top_k: 5
+compute_pixel_aupro: true
+save_anomaly_maps: false
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

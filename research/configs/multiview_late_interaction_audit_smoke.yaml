@@ -1,0 +1,57 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/_smoke_multiview_late_interaction
+cache_dir: cache/_smoke_aligned_multiview_memory_phase_IV_A
+device: cuda:0
+seeds: [0]
+resume: true
+run_mode: smoke
+limit: 2
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: false
+k: 4
+baseline_alpha: 0.5
+required_layers: [6, 10, 12, 18, 24]
+diagnostic_batches: 1
+smoke_variants:
+  - V0_EarlyFusionBaseline
+  - V4_AlignedLogitLateInteraction_w1_0.5_0.5
+  - C1_RepeatedT24Tuple
+  - C2_ShuffledMemoryViewAlignment
+  - C8_EarlyFusionMatchedWeights
+temperature_grid: [0.03, 0.05, 0.07, 0.10]
+default_temperatures: [0.07, 0.07, 0.07]
+selected_temperatures: [0.07, 0.07, 0.07]
+selected_weights: [1.0, 0.5, 0.5]
+weight_sets:
+  - [1.0, 0.5, 0.5]
+concat_weight_sets:
+  - [1.0, 0.5, 0.5]
+rrf_c_values: [60]
+baseline_reference:
+  I-AUROC: 0.941915
+  I-AP: 0.971353
+  P-AUROC: 0.921452
+  PRO: 0.874102
+baseline_tolerance:
+  I-AUROC: 0.002
+  I-AP: 0.002
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: false
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+

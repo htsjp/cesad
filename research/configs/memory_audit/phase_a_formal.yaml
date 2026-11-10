@@ -1,0 +1,40 @@
+output_dir: results/phase_a
+report_dir: reports
+stage: formal
+device: cuda:0
+seed: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+data_paths:
+  mvtec: data/mvtec
+  visa: data/VISA
+directions:
+  d1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+    patch_cache: cache/cache_patch_model_mvtec.pt
+  d2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+    patch_cache: cache/cache_patch_model_visa.pt
+evaluation:
+  # Formal config intentionally has no limit_images. Do not add smoke limits here.
+  directions: [d1, d2]
+graph:
+  max_neighbors_per_relation: 16
+  knn_k: 16
+retrieval:
+  k1: 4
+  k2: 8
+  max_candidates: 32
+  temperature: 1.0
+  lambda_q: 1.0
+  lambda_s: 0.25
+  lambda_r: 0.15
+  lambda_d: 0.1
+groups:
+  fallback: [G1_top8, G5_old]
+  balanced: [B1_top8, B2_n4_a4, B3_n2_a6, B4_n6_a2, B5_adaptive]
+  relations: [R0_random, R1_same_cluster, R2_same_spatial_bin, R3_cross_scale, R4_same_source_category, R5_same_source_image, R6_normal_contrast, R7_anomaly_contrast, R8_paired_normal_anomaly]

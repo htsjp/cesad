@@ -1,64 +1,112 @@
-# sjp_ces - CESAD private research source archive
+# CESAD
 
-CESAD: Compact Experience States for Strict Cross-Dataset Zero-Shot Anomaly Detection.
+**Compact Experience States for Strict Cross-Dataset Zero-Shot Anomaly Detection**
 
-This repository is a **private source-only backup**, not a self-contained pretrained
-release. It preserves the research directory structure and distinguishes certified
-source reconstruction from historical experiments. No model was trained for this upload.
+CESAD learns a two-state anomaly scorer over frozen visual features.
+Normal-tail regularization (NTR) supervises high-response normal patches, and
+local re-observation (LRP) combines global and local anomaly evidence.
 
-## Start here
+![Source geometry](assets/source_geometry.png)
 
-- `cesad_core.py`: exact source-extracted CES, LinearHead, NormalizedLinearHead,
-  NTR and BCE/Dice implementations, readable without the experiment import graph.
-- `METHOD_IMPLEMENTATION.md`: mathematical definitions and actual preparation order.
-- `CODE_MAP.md`: canonical entry points, dependencies and historical-branch boundaries.
-- `REPRODUCTION.md`: environment, external assets and safe reproduction requirements.
-- `sjp_ces_source.zip`: complete code-only snapshot with original relative imports.
-- `SOURCE_MANIFEST.csv`: every selected original source path, byte size and SHA256.
-- `CORE_EXTRACTION_TRACE.json`: source file/line/hash for every extracted core symbol.
+## Repository Structure
 
-## Restore the full project
-
-```bash
-python -m zipfile -e sjp_ces_source.zip .
-cd sjp_ces_source
+```text
+cesad/
+|-- cesad/          # CES heads, source transforms, training and inference
+|-- configs/        # MVTec-source and VisA-source configuration templates
+|-- tools/          # Source preparation and consistency checks
+|-- tests/          # Head, loss, transform and evaluator tests
+|-- assets/         # Figure used in this README
+|-- research/       # Original experiment implementations and dependencies
+|-- train.py        # Final CES-head training
+|-- inference.py    # Frozen target inference
+|-- evaluate.py     # Evaluation of saved predictions
+`-- requirements.txt
 ```
 
-The archive contains `experiments/`, the frozen visual implementation, loaders,
-model helpers, tests, configurations and scientific plotting scripts. Keep these
-relative paths intact. The hundreds of historical experiments are **not** all
-components of the final CESAD method.
+The top-level entry points provide a separated interface. Original experiment
+scripts remain under `research/` with their original relative imports.
 
-## Final method
+## Environment
 
-Frozen visual features -> source-specific fixed preparation -> constrained CES
-direction learning with BCE + Dice + NTR -> fixed global/local LRP.
+The local environment uses Python 3.13.5, PyTorch 2.9.1+cu130 and torchvision
+0.24.1+cu130. Install a matching PyTorch build for your hardware.
 
-The final scorer uses two normalized 1024-dimensional states. Only one
-1024-dimensional raw direction is optimized during the final CES stage; the
-construction center, separation scale and source feature transform are frozen.
-PC1 and the residual adapter are additional frozen source assets, not counted as
-the compact scorer's optimized parameters.
+```bash
+git clone https://github.com/htsjp/cesad.git
+cd cesad
+python -m pip install -r requirements.txt
+```
 
-## Strict protocol
+## Configuration
 
-MVTec -> VisA; VisA -> MVTec, BTAD, MPDD, DTD-Synthetic and DAGM.
-No target training, target normal library, target statistics or target-driven
-checkpoint selection is introduced by this package. Ground truth is for evaluation.
-Pixel results use native paired GT and category-macro aggregation. Image results
-use a 74x74 score grid and top-1% mean (55 positions), category-macro aggregation.
+Set the local input and output paths in `configs/` before running. The provided
+YAML files are templates, not bundled datasets or model files.
 
-## Important limitations
+| Auxiliary source | Target datasets |
+|---|---|
+| Full MVTec AD | VisA |
+| Full VisA | MVTec AD, BTAD, MPDD, DTD-Synthetic, DAGM 2007 |
 
-Historical source scripts contain machine-specific D:/E: paths and review gates.
-This is an auditable archive, not a claim that a fresh clone can reproduce paper
-results without datasets, weights, source manifests and explicit asset mapping.
-Do not remove certification gates or silently substitute older caches.
-The directly computed initialization used for figures is not a trained no-NTR model.
+## Source Preparation
 
-## Excluded deliberately
+The source preparation stage produces the features and fixed initialization
+used by final-head training. The original source-build input checks are retained.
 
-Datasets/masks, checkpoints, feature banks, anomaly maps, optimizer files, cached
-responses, manuscript documents, logs, credentials and downloaded baseline repos.
-Keep the repository **Private** until provenance, licenses and a public asset
-distribution plan have been reviewed. Existing third-party notices are preserved.
+```bash
+python tools/source_preparation.py --help
+python tools/source_preparation.py --project-root /path/to/source/project --task preflight
+```
+
+Original preparation scripts retain their local manifest and approval bindings;
+relocating the repository does not bypass these checks.
+
+## Training
+
+Train the final CES direction from prepared source features, labels and the
+fixed batch plan. The center, scale and source transform remain frozen.
+
+```bash
+python train.py --config configs/train_visa.yaml --output outputs/train_visa --dry-run
+python train.py --config configs/train_visa.yaml --output outputs/train_visa --device cuda
+```
+
+For MVTec-source training, use `configs/train_mvtec.yaml`.
+
+## Inference
+
+```bash
+python inference.py --config configs/inference_visa.yaml --output outputs/visa_source --dry-run
+python inference.py --config configs/inference_visa.yaml --output outputs/visa_source --device cuda
+```
+
+For MVTec-to-VisA, use `configs/inference_mvtec.yaml`. Inference saves raw
+74 x 74 anomaly logits and a prediction manifest. LRP uses one global view and
+four non-overlapping local views with fixed 0.5/0.5 fusion.
+
+## Evaluation
+
+```bash
+python evaluate.py --manifest outputs/visa_source/manifest.csv --output outputs/visa_source_metrics
+```
+
+The evaluator reports I-AUROC, I-AP, P-AUROC, P-AP, P-F1max and AUPRO.
+Pixel metrics use original-resolution paired masks and category-macro
+aggregation. Image scores use the top-1% mean on the 74 x 74 score grid.
+
+## Tests
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The organized interface has passed 11 unit tests and saved-source-asset parity
+checks. Full training and benchmark reproduction were not rerun during this
+repository reorganization.
+
+## Acknowledgments
+
+The visual implementation builds on CLIP, AnomalyCLIP-style components and the
+MRAD-based research workspace. Inherited visual modules are not CESAD
+contributions. Original third-party notices and licenses are retained; see
+[Third-party notices](THIRD_PARTY_NOTICES.md).

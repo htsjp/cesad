@@ -1,0 +1,9 @@
+name: mrad-xa
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - -r requirements_xa_cloud.txt

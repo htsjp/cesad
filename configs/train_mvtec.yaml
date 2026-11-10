@@ -1,0 +1,10 @@
+source: Full MVTec
+seed: 0
+features: ../data_assets/mvtec/l2_features.npy
+labels: ../data_assets/mvtec/true_labels.npy
+batch_indices: ../data_assets/mvtec/actual_batches.npy
+geometry_checkpoint: ../weights/mvtec/update_000.pt
+updates: 30
+learning_rate: 0.001
+ntr: true
+rho: 0.10

@@ -1,0 +1,39 @@
+output_dir: results/phase_e
+report_dir: reports
+stage: formal
+device: cuda:0
+seed: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+feature_map_layer: [0, 1, 2, 3]
+dpam_layer: 24
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+calibration_folds: 5
+data_paths:
+  mvtec: data/mvtec
+  visa: data/VISA
+directions:
+  d1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+    image_cache: cache/cache_model_mvtec.pt
+    patch_cache: cache/cache_patch_model_mvtec.pt
+  d2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+    image_cache: cache/cache_model_visa.pt
+    patch_cache: cache/cache_patch_model_visa.pt
+evaluation:
+  directions: [d1, d2]
+variants:
+  - E0_OfficialFull
+  - E1_ClassCentroid
+  - E2_ClassCentroid_SourceAffine
+  - E3_HQAP4
+  - E4_HQAP4_SourceAffine
+fusion_alphas: [0.0, 0.25, 0.5, 0.75, 1.0]

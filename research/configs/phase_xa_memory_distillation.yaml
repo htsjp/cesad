@@ -1,0 +1,49 @@
+phase: X-A
+method: Memory-Distilled Anomaly-Aware CLIP
+mode: smoke_and_stage1_ready
+seed: 0
+fold: 0
+epochs: 2
+batch_size: 1
+bottleneck: 64
+learning_rate: 0.0001
+train_items_per_direction: 8
+val_items_per_direction: 4
+cache_items_per_epoch: 8
+teacher_items: 8
+variants:
+  smoke:
+    - XA1_HardLabelAdapter
+    - XA2_CLIPPreservedAdapter
+    - XA4_DualTeacherFullMemory
+    - XA6_RandomMemoryTeacher
+  stage1:
+    - XA0_OfficialMRADCLIP
+    - XA1_HardLabelAdapter
+    - XA2_CLIPPreservedAdapter
+    - XA3_TaskOnlyResidualAdapter
+    - XA4_DualTeacherFullMemory
+    - XA5_DualTeacherCompactMemory
+    - XA6_RandomMemoryTeacher
+    - XA7_LabelOnlySoftTeacher
+    - XA8_CLIPSelfStyleCropTeacher
+stage1:
+  folds: [0, 1, 2]
+  epochs: 12
+  random_memory_seeds: [0, 1, 2, 3, 4]
+  resume: true
+  checkpoint_after_each_run: true
+  source_only: true
+  target_evaluation: false
+directions:
+  D1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+  D2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+zero_shot:
+  target_evaluation_in_smoke: false
+  target_labels_used_before_final_evaluation: false

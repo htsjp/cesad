@@ -1,0 +1,6 @@
+output_dir: analysis
+seed: 0
+stat_roots:
+- results/layer_audit
+- results/prototype_audit
+- results/text_memory

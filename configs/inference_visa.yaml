@@ -1,0 +1,10 @@
+# Full VisA -> MVTec / BTAD / MPDD / DTD-Synthetic / DAGM.
+source: Full VisA
+manifest: ../data_assets/target_manifest.csv
+checkpoint: ../weights/visa/update_030.pt
+pc1: ../weights/visa/pc1.npy
+adapter: ../weights/visa/E2_formal.pt
+# Set to an explicit ordered[N,5,1369,1024] FP32 cache, or null for images.
+cached_features: null
+base_weights: ../weights/ViT-L-14-336px.pt
+ancillary_checkpoint: ../weights/test_on_mvtec.pth

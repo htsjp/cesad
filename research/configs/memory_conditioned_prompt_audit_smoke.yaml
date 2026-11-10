@@ -1,0 +1,41 @@
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+output_dir: results/_smoke_memory_conditioned_prompt
+device: cuda:0
+seed: 0
+resume: true
+limit: 2
+source_mode: test
+target_mode: test
+transfer_directions:
+  - name: visa_to_mvtec
+    source: visa
+    target: mvtec
+  - name: mvtec_to_visa
+    source: mvtec
+    target: visa
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: false
+k: 4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+n_ctx_prompt: 4
+context_k: 2
+lambda_text: 0.1
+beta_max: 0.1
+lambda_image: 1.0
+lambda_bias: 0.00001
+lambda_preserve: 0.0
+prompt_lr: 0.001
+weight_decay: 0.0001
+epochs: 1
+

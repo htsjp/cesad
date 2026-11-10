@@ -1,0 +1,69 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+target_mode: test
+source_mode: test
+output_dir: results/structure_residual_retrieval
+phase_iid_result_dir: results/value_representation_audit
+graph_cache_dir: cache/memory_graph_phase_III_B
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+run_mode: primary
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+representation:
+  name: T24_plus_V12_18_alpha0.5
+  layers: [12, 18, 24]
+  family: anchor
+  source: V
+  alpha: 0.5
+graph_feature_controls:
+  t24_memory: T24_Baseline
+  v12_memory: V12
+  v18_memory: V18
+source_selection:
+  protocol: fixed defaults; no VisA validation split used
+  selected_settings:
+    graph: SharedNeighborGraph
+    k_graph: 20
+    tau_graph: 0.07
+    rho: 1.0
+    lambda_graph: 0.10
+    propagation_steps: 1
+    graph_feature: fused
+graph_types: [directed, symmetric, mutual, shared, local_scale]
+k_graph_values: [5, 10, 20, 50]
+tau_graph_values: [0.03, 0.05, 0.07, 0.10]
+rho_values: [0.5, 1.0, 2.0]
+lambda_graph_values: [0.02, 0.05, 0.10, 0.20, 0.30]
+self_loop_eta_values: [0.25, 0.5, 1.0]
+dual_residual_values:
+  - [0.05, 0.02]
+  - [0.10, 0.02]
+  - [0.10, 0.05]
+shared_neighbor_epsilon: 1.0e-6
+knn_chunk_size: 512
+baseline_reference:
+  I-AUROC: 0.941915
+  I-AP: 0.971353
+  P-AUROC: 0.921452
+  PRO: 0.874102
+baseline_tolerance:
+  I-AUROC: 0.002
+  I-AP: 0.002
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: true
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

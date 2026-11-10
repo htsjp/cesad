@@ -1,0 +1,48 @@
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+output_dir: results/text_anchored_memory
+device: cuda:0
+seed: 0
+seeds: [0]
+resume: true
+run_mode: stage1
+transfer_directions:
+  - name: visa_to_mvtec
+    source: visa
+    target: mvtec
+  - name: mvtec_to_visa
+    source: mvtec
+    target: visa
+source_mode: test
+target_mode: test
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+source_val_fraction: 0.25
+selected_rank: 8
+selected_lambda: 0.1
+selected_rho: 1.0
+pca_ranks: [4, 8, 16, 32]
+ranks: [8, 16]
+lambdas: [0.05, 0.1, 0.2]
+rhos: [0.5, 1.0]
+control_seeds: 5
+prompt_n_ctx: 4
+prompt_epochs: 30
+prompt_patience: 5
+prompt_lr: 0.001
+prompt_weight_decay: 0.0001
+prompt_batch_size: 256
+tau_text: 10.0
+lambda_anchor: 0.001

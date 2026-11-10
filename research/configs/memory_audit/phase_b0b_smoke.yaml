@@ -1,0 +1,72 @@
+output_dir: results/phase_b0b_smoke
+report_dir: reports
+stage: smoke
+device: cuda:0
+seed: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+feature_map_layer: [0, 1, 2, 3]
+dpam_layer: 24
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: false
+data_paths:
+  mvtec: data/mvtec
+  visa: data/VISA
+directions:
+  d1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+    image_cache: cache/cache_model_mvtec.pt
+    patch_cache: cache/cache_patch_model_mvtec.pt
+  d2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+    image_cache: cache/cache_model_visa.pt
+    patch_cache: cache/cache_patch_model_visa.pt
+evaluation:
+  limit_images: 2
+  directions: [d1, d2]
+retrieval:
+  temperature: 1.0
+groups:
+  C0_global_top8:
+    use_raw_mrad_baseline: true
+    mode: global_topk
+    aggregator: candidate_softmax
+    normal_k: 0
+    anomaly_k: 0
+    total_k: 8
+  C3_class_mean:
+    mode: classwise_topk
+    aggregator: class_mean
+    normal_k: 4
+    anomaly_k: 4
+    total_k: 8
+  C4_class_weighted_mean:
+    mode: classwise_topk
+    aggregator: class_weighted_mean
+    normal_k: 4
+    anomaly_k: 4
+    total_k: 8
+  C5_class_logmeanexp:
+    mode: classwise_topk
+    aggregator: class_logmeanexp
+    normal_k: 4
+    anomaly_k: 4
+    total_k: 8
+  C5U_class_logsumexp:
+    mode: classwise_topk
+    aggregator: class_logsumexp
+    normal_k: 4
+    anomaly_k: 4
+    total_k: 8
+  C6_class_max:
+    mode: classwise_topk
+    aggregator: class_max
+    normal_k: 4
+    anomaly_k: 4
+    total_k: 8

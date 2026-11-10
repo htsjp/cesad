@@ -1,0 +1,35 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+target_mode: test
+source_mode: test
+output_dir: results/base_residual_memory
+consistency_output_dir: results/phase_IV_C_consistency
+head_memory_dir: results/head_selective_residual/checkpoints
+value_memory_dir: results/value_representation_audit/checkpoints
+device: cuda:0
+seed: 0
+resume: true
+run_mode: primary
+stage1: true
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+consistency_source_images: 32
+consistency_target_images: 32
+consistency_target_patches: 10000
+energy_thresholds: [0.80, 0.90, 0.95, 0.99]
+global_ranks: [1, 2, 4, 8]
+control_seeds: 20
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+

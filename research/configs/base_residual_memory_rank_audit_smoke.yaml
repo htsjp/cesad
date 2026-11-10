@@ -1,0 +1,46 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+target_mode: test
+source_mode: test
+output_dir: results/_smoke_base_residual_memory
+consistency_output_dir: results/_smoke_phase_IV_C_consistency
+head_memory_dir: results/head_selective_residual/checkpoints
+value_memory_dir: results/value_representation_audit/checkpoints
+device: cuda:0
+seed: 0
+resume: true
+run_mode: smoke
+stage1: true
+limit: 1
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+consistency_source_images: 1
+consistency_target_images: 1
+consistency_target_patches: 1000
+energy_thresholds: [0.90]
+global_ranks: [1, 2]
+control_seeds: 1
+smoke_variants:
+  - V0_FullFPS
+  - V2_FPSCentroidRepeated4
+  - V3_BaseResidual_Rank1
+  - V4_BaseResidual_Rank2
+  - V5_BaseResidual_Rank3_Exact
+  - C1_RandomLocalSubspace_Rank1_seed0
+  - C2_RandomLocalSubspace_Rank2_seed0
+  - C3_BasisShuffle_Rank1_seed0
+  - C4_BasisShuffle_Rank2_seed0
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+

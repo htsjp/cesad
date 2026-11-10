@@ -1,0 +1,33 @@
+data_paths: {mvtec: ./data/mvtec, visa: ./data/VISA}
+output_dir: results/phase_viii_b_spatial
+device: cuda:0
+seed: 0
+resume: true
+transfer_directions:
+  - {name: visa_to_mvtec, source: visa, target: mvtec}
+  - {name: mvtec_to_visa, source: mvtec, target: visa}
+source_mode: test
+target_mode: test
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+compact_rank: 8
+source_val_fraction: 0.25
+boundary: reflect
+eta_grid: [0.25, 0.50, 1.00]
+score_weights:
+  - [0.5, 0.5, 0.0]
+  - [0.5, 0.0, 0.5]
+  - [0.333333, 0.333333, 0.333334]
+  - [0.25, 0.50, 0.25]
+  - [0.50, 0.25, 0.25]

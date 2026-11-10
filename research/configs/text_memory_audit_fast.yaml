@@ -1,0 +1,46 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/text_memory
+device: cuda:0
+seed: 0
+batch_size: 1
+num_workers: 0
+image_size: 518
+features_list:
+- 6
+- 12
+- 18
+- 24
+layer: 24
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+text_weight: 0.5
+topk_ratio: 0.01
+retrieval_top_k: 5
+compute_pixel_aupro: false
+methods:
+- visual
+- visual_minus_text_similarity
+- visual_text_memory
+text_prompts:
+  normal:
+  - a normal object
+  - a clean surface
+  - a flawless object
+  anomaly:
+  - a damaged object
+  - a scratched object
+  - a broken object
+  - a cracked object
+  - a contaminated object
+  - a deformed object
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

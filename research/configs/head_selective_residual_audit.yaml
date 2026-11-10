@@ -1,0 +1,49 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/head_selective_residual
+cache_dir: cache/head_value_phase_IV_B
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+run_mode: primary
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+alpha: 0.5
+expected_memory_entries: 12476
+
+source_training_batches: 12
+training_patches_per_image: 96
+normalizer_batches: 8
+max_epochs: 30
+patience: 5
+learning_rate: 1.0e-3
+weight_decay: 1.0e-4
+lambda_uniform: 1.0e-4
+
+baseline_reference:
+  I-AUROC: 0.9419
+  I-AP: 0.9711
+  P-AUROC: 0.9217
+  PRO: 0.8782
+baseline_tolerance:
+  I-AUROC: 0.002
+  I-AP: 0.003
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: true
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

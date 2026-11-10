@@ -1,0 +1,56 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+target_mode: test
+source_mode: test
+output_dir: results/static_residual_closure
+head_memory_dir: results/head_selective_residual/checkpoints
+device: cuda:0
+seeds: [0]
+resume: true
+run_mode: primary
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+expected_memory_entries: 12476
+
+alpha_values: [0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80]
+layer_ratios:
+  - [1.0, 0.0]
+  - [1.0, 0.25]
+  - [1.0, 0.50]
+  - [1.0, 0.75]
+  - [1.0, 1.0]
+  - [0.75, 1.0]
+  - [0.50, 1.0]
+  - [0.25, 1.0]
+  - [0.0, 1.0]
+layer_alpha_values: [0.30, 0.40, 0.50, 0.60, 0.70]
+subset_fractions: [0.25, 0.50, 0.75]
+random_static_controls: 20
+random_subset_controls: 20
+permutation_controls: 20
+
+baseline_reference:
+  I-AUROC: 0.9419
+  I-AP: 0.9711
+  P-AUROC: 0.9218
+  PRO: 0.8782
+baseline_tolerance:
+  I-AUROC: 0.002
+  I-AP: 0.003
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: true
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+

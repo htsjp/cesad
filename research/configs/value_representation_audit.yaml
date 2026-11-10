@@ -1,0 +1,45 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/value_representation_audit
+cache_dir: cache/value_representation_audit
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+run_mode: primary
+batch_size: 1
+num_workers: 0
+image_size: 518
+layers: [6, 12, 18, 24]
+features_list: [6, 12, 18, 24]
+random_layers:
+  - [4, 10]
+  - [4, 10, 16]
+  - [4, 10, 16, 22]
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+retrieval_top_k: 5
+compute_pixel_aupro: true
+save_feature_cache: true
+cache_first_n: 8
+k: 4
+alpha_values: [0.1, 0.25, 0.5]
+baseline_reference:
+  I-AUROC: 0.9360
+  P-AUROC: 0.9141
+  PRO: 0.8650
+baseline_tolerance:
+  I-AUROC: 0.002
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: true
+n_ctx: 12
+depth: 9
+t_n_ctx: 4

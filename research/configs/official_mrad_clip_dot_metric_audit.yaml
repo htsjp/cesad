@@ -1,0 +1,38 @@
+output_dir: results/phase_ix_a2_official_dot_metric
+device: cuda:0
+seed: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+feature_map_layer: [0, 1, 2, 3]
+dpam_layer: 24
+sigma: 4
+fusion_k: 0.7
+stage: stage1
+data_paths:
+  mvtec: data/mvtec
+  visa: data/VISA
+directions:
+  d1:
+    source: mvtec
+    target: visa
+    checkpoint: checkpoints/test_on_visa.pth
+    image_cache: cache/cache_model_mvtec.pt
+    patch_cache: cache/cache_patch_model_mvtec.pt
+    baseline: [85.20, 88.00, 95.80, 88.00]
+  d2:
+    source: visa
+    target: mvtec
+    checkpoint: checkpoints/test_on_mvtec.pth
+    image_cache: cache/cache_model_visa.pt
+    patch_cache: cache/cache_patch_model_visa.pt
+    baseline: [93.90, 97.30, 92.90, 86.80]
+rank: 8
+beta: 0.2
+lambda_delta: 0.001
+lambda_margin: 0.01
+lr: 0.0005
+weight_decay: 0.0001
+max_epochs: 30
+patience: 5
+batch_size: 128
+random_control_seeds: [0, 1, 2, 3, 4]

@@ -1,0 +1,39 @@
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+output_dir: results/static_memory_reliability
+device: cuda:0
+seed: 0
+resume: true
+run_mode: stage1
+transfer_directions:
+  - name: visa_to_mvtec
+    source: visa
+    target: mvtec
+  - name: mvtec_to_visa
+    source: mvtec
+    target: visa
+source_mode: test
+target_mode: test
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+compact_rank: 8
+source_val_fraction: 0.25
+retrieval_temperature: 1.0
+responsibility_batch_size: 128
+bootstrap_seeds: 10
+alpha_grid: [0.01, 0.025, 0.05, 0.10, 0.20]
+lambda_h_grid: [0.25, 0.50, 1.00]
+lambda_s_grid: [0.25, 0.50]
+control_seeds: 5

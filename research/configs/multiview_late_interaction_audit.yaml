@@ -1,0 +1,59 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/multiview_late_interaction
+cache_dir: cache/aligned_multiview_memory_phase_IV_A
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+run_mode: primary
+batch_size: 1
+num_workers: 0
+image_size: 518
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+compute_pixel_aupro: true
+k: 4
+baseline_alpha: 0.5
+required_layers: [6, 10, 12, 18, 24]
+expected_memory_entries: 12476
+diagnostic_batches: 1
+
+temperature_grid: [0.03, 0.05, 0.07, 0.10]
+default_temperatures: [0.07, 0.07, 0.07]
+selected_temperatures: [0.07, 0.07, 0.07]
+selected_weights: [1.0, 0.5, 0.5]
+weight_sets:
+  - [1.0, 0.25, 0.25]
+  - [1.0, 0.5, 0.5]
+  - [1.0, 0.25, 0.5]
+  - [1.0, 0.5, 0.25]
+  - [1.0, 1.0, 1.0]
+concat_weight_sets:
+  - [1.0, 0.5, 0.5]
+  - [1.0, 0.25, 0.25]
+  - [1.0, 1.0, 1.0]
+rrf_c_values: [10, 30, 60]
+
+baseline_reference:
+  I-AUROC: 0.941915
+  I-AP: 0.971353
+  P-AUROC: 0.921452
+  PRO: 0.874102
+baseline_tolerance:
+  I-AUROC: 0.002
+  I-AP: 0.002
+  P-AUROC: 0.002
+  PRO: 0.005
+fail_on_baseline_mismatch: true
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+

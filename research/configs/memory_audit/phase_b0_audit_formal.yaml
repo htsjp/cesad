@@ -1,0 +1,11 @@
+output_dir: results/phase_b0_audit
+report_dir: reports
+stage: audit_formal
+phase_a_config: configs/memory_audit/phase_a_formal.yaml
+phase_b0_config: configs/memory_audit/phase_b0_formal.yaml
+directions: [d1, d2]
+# Formal audit has no full-experiment limit. Heavy traces are bounded by the
+# audit requirements below, not by smoke parameters.
+feature_images: 10
+score_trace_images: 20
+topk_queries: 1000

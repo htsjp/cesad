@@ -1,0 +1,71 @@
+dataset: mvtec
+source_dataset: visa
+data_paths:
+  mvtec: ./data/mvtec
+  visa: ./data/VISA
+source_mode: test
+target_mode: test
+output_dir: results/semantic_reranking
+device: cuda:0
+seeds: [0, 1, 2]
+resume: true
+batch_size: 1
+num_workers: 0
+image_size: 518
+features_list: [6, 12, 18, 24]
+layer: 24
+dpam_layer: 24
+average_neighbor: true
+sigma: 4
+fusion_k: 0.7
+topk_ratio: 0.01
+retrieval_top_k: 5
+compute_pixel_aupro: true
+k: 4
+variant: FPS_K4
+n_ctx: 12
+depth: 9
+t_n_ctx: 4
+baseline_reference:
+  I-AUROC: 0.9360
+  P-AUROC: 0.9142
+  PRO: 0.8690
+baseline_tolerance: 0.002
+fail_on_baseline_mismatch: false
+semantic_top_m: 3
+selection_protocol: fixed central default
+primary:
+  lambda_text: 0.25
+  lambda_sem: 0.1
+  tau_sem: 0.5
+sweeps:
+  lambda_text: [0.1, 0.25, 0.5, 1.0]
+  lambda_sem: [0.05, 0.1, 0.25, 0.5]
+  tau_sem: [0.1, 0.25, 0.5, 1.0]
+text_bank:
+  normal:
+    - "a normal object"
+    - "a flawless object"
+    - "an intact object"
+    - "a clean surface"
+    - "a regular texture"
+    - "a correctly shaped object"
+    - "an undamaged object"
+  anomaly:
+    - "a damaged object"
+    - "a defective object"
+    - "a scratched surface"
+    - "a cracked surface"
+    - "a broken object"
+    - "a contaminated surface"
+    - "a deformed object"
+    - "a dented object"
+    - "a hole in the object"
+    - "a missing part"
+    - "an irregular texture"
+    - "a discolored surface"
+  templates:
+    - "{}"
+    - "a photo of {}"
+    - "a close-up photo of {}"
+    - "an industrial image of {}"

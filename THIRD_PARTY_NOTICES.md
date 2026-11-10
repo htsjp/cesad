@@ -6,9 +6,9 @@ OpenAI CLIP. Preserve upstream notices and cite inherited components separately
 from CES/NTR/LRP contributions.
 
 The original MRAD README, requirements and MIT notice are preserved under
-`sjp_ces_source/docs/UPSTREAM_*` in the archive. No new blanket license is
-assigned to this private research backup. Review per-component rights before
-public release or redistribution of datasets/weights.
+`research/docs/UPSTREAM_*`. No new blanket license is
+assigned to this repository. Preserve per-component license terms when
+redistributing code. Datasets and model weights are not included.
 
 External baseline repositories are deliberately excluded. This package does not
 claim ownership of AnomalyCLIP, MRAD, CLIP or downloaded third-party code.
